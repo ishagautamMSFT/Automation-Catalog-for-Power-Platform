@@ -54,18 +54,14 @@ jobs:
         run: npm install
         working-directory: AutomationCatalogForPowerPlatform/ACPP.Client
 
-      - name: Set empty vars
-        run: |
-          $env:REACT_APP_TEAMS_APP_ID = "${{ vars.TEAMSAPPID }}".Trim()
-          $env:REACT_APP_FEEDBACK_FORM_URL = "${{ vars.FEEDBACKFORMURL }}".Trim()
-        shell: pwsh
-
       - name: Build UI
         run: |
           set REACT_APP_BUILD_ID=${{ github.run_number }}
           set REACT_APP_CLIENT_ID=${{ secrets.AZURE_CLIENT_ID }}
+          set REACT_APP_TEAMS_APP_ID=${{ vars.TEAMSAPPID }}
           set REACT_APP_DEFAULT_TOKEN_SCOPE=api://${{ vars.APPSERVICE }}.azurewebsites.net/${{ secrets.AZURE_CLIENT_ID }}
           set REACT_APP_ADMIN_ENV=${{ vars.ADMINENVIRONMENT }}
+          set REACT_APP_FEEDBACK_FORM_URL=${{ vars.FEEDBACKFORMURL }}
           set REACT_APP_FAQ_URL=${{ vars.FAQURL }}
           set REACT_APP_AI_CONNECTION_STRING=${{ vars.APPINSIGHTSCONNECTIONSTRING }}
           npm run build:prod
